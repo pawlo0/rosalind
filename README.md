@@ -1,2 +1,2 @@
 # rosalind
-Just my solutions playing around in ROSALIND
+Just my solutions playing around in [ROSALIND](http://rosalind.info/)
