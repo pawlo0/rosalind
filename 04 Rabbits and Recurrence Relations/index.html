@@ -71,7 +71,15 @@
       }
 
       function setTitle(extra) {
-        var title = location.pathname.split("/")[1].replace(/%20/g, " ");
+        var titleArr = location.pathname.split("/");
+        var title = "title";
+        var last = titleArr[titleArr.length - 1];
+        var beforeLast = titleArr[titleArr.length - 2];
+        if (last.substr(last.length - 4) == "html") {
+          title = beforeLast.replace(/%20/g, " ");
+        } else {
+          title = last.replace(/%20/g, " ");
+        }
         document.title = title;
         document.getElementById("title").textContent = title;
       }
