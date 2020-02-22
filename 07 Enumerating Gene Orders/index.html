@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>title</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
+    />
+  </head>
+
+  <body onload="setTitle()">
+    <div class="ui container">
+      <h1 id="title"></h1>
+      <div class="ui form">
+        <div class="field">
+          <h2 class="ui dividing header">Sample Data:</h2>
+          <input
+            type="text"
+            name="sample"
+            placeholder="Sample data"
+            id="sampleInput"
+          />
+        </div>
+        <button class="ui button" onclick="return app()">
+          Submit
+        </button>
+        <button class="ui button" onclick="clearForm()">Clear</button>
+        <p>Or</p>
+        <input
+          type="file"
+          id="myfile"
+          name="myfile"
+          onchange="handleFiles(this.files)"
+        />
+      </div>
+
+      <div class="ui segment">
+        <h3>Solution:</h3>
+        <p
+          style="word-break: break-all; white-space: pre-wrap;"
+          id="solution"
+        ></p>
+        <a class="ui top right attached label" onclick="copyToClipboard()">
+          <i data-content="Copy code" class="copy link icon"></i>
+        </a>
+        <a
+          class="ui bottom right attached label"
+          onclick="downloadFile()"
+          id="download"
+        >
+          <i data-content="Copy code" class="download icon"></i>
+        </a>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+
+    <script>
+      function handleFiles(event) {
+        var fileToLoad = document.getElementById("myfile").files[0];
+
+        var fileReader = new FileReader();
+        fileReader.onload = function(fileLoadedEvent) {
+          var textFromFileLoaded = fileLoadedEvent.target.result;
+          document.getElementById("sampleInput").value = textFromFileLoaded;
+          return app();
+        };
+
+        fileReader.readAsText(fileToLoad, "UTF-8");
+      }
+
+      function clearForm() {
+        document.getElementById("myfile").value = "";
+        document.getElementById("sampleInput").value = "";
+        document.getElementById("solution").textContent = "";
+      }
+
+      function copyToClipboard() {
+        var text = document.getElementById("solution").textContent;
+        navigator.clipboard.writeText(text);
+      }
+
+      function setTitle(extra) {
+        var titleArr = location.pathname.split("/");
+        var title = "title";
+        var last = titleArr[titleArr.length - 1];
+        var beforeLast = titleArr[titleArr.length - 2];
+        if (last.substr(last.length - 4) == "html") {
+          title = beforeLast.replace(/%20/g, " ");
+        } else {
+          title = last.replace(/%20/g, " ");
+        }
+        document.title = title;
+        document.getElementById("title").textContent = title;
+      }
+
+      function downloadFile() {
+        var a = document.getElementById("download");
+        var file = new Blob([document.getElementById("solution").textContent], {
+          type: "text/plain"
+        });
+        a.href = URL.createObjectURL(file);
+        a.download = "solution.txt";
+      }
+    </script>
+  </body>
+</html>
