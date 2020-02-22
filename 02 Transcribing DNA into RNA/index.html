@@ -4,16 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Transcribing DNA into RNA</title>
+    <title></title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css"
     />
   </head>
 
-  <body>
+  <body onload="setTitle()">
     <div class="ui container">
-      <h1>Transcribing DNA into RNA</h1>
+      <h1 id="title"></h1>
       <div class="ui form">
         <div class="field">
           <h2 class="ui dividing header">Sample Data:</h2>
@@ -68,6 +68,13 @@
       function copyToClipboard() {
         var text = document.getElementById("solution").textContent;
         navigator.clipboard.writeText(text);
+      }
+
+      function setTitle(extra) {
+        var title = location.pathname.split("/")[1].replace(/%20/g, " ");
+        document.title = title;
+        document.getElementById("title").textContent = title;
+        console.log(document.title);
       }
     </script>
   </body>
